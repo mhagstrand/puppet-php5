@@ -1,25 +1,39 @@
 [<%= @name %>]
-<% if @prefix %>prefix = <%= @prefix %><% end %>
+<% if @prefix -%>
+prefix = <%= @prefix %>
+<% end -%>
 listen = <%= @listen %><% if @port != "NOTSET" %>:<%= @port %><% end %>
 user = <%= @user %>
-<% if @group %>group = <%= @group %><% end %>
+<% if @group -%>
+group = <%= @group %>
+<% end -%>
 pm = <%= @pm %>
 pm.max_children = <%= @pm_max_children %>
-<% if @pm_start_servers %>pm.start_servers = <%= @pm_start_servers %><% end %>
-<% if @pm_min_spare %>pm.min_spare_servers = <%= @pm_min_spare %><% end %>
-<% if @pm_max_spare %>pm.max_spare_servers = <%= @pm_max_spare %><% end %>
+<% if @pm_start_servers -%>
+pm.start_servers = <%= @pm_start_servers %>
+<% end -%>
+<% if @pm_min_spare %>
+pm.min_spare_servers = <%= @pm_min_spare %>
+<% end -%>
+<% if @pm_max_spare %>
+pm.max_spare_servers = <%= @pm_max_spare %>
+<% end -%>
 pm.max_requests = <% if @pm_max_requests %><%= @pm_max_requests %><% else %>0<% end %>
-<% if @status_path %>pm.status_path = <%= @status_path %><% end %>
-<% if @ping_path %>ping.path = <%= @ping_path %><% end %>
-<% @env.each do |k, v| %>
-	env[<%= k %>] = <%= v %>
+<% if @status_path -%>
+pm.status_path = <%= @status_path %>
+<% end -%>
+<% if @ping_path -%>
+ping.path = <%= @ping_path %>
+<% end -%>
+<% @env.sort.each do |k, v| -%>
+    env[<%= k %>] = <%= v %>
+<% end -%>
+<% @php_values.sort.each do |k, v| -%>
+    php_value[<%= k %>] = <%= v %>
+<% end -%>
+<% @php_admin_values.sort.each do |k, v| -%>
+    php_admin_value[<%= k %>] = <%= v %>
 <% end %>
-<% @php_values.each do |k, v| %>
-	php_value[<%= k %>] = <%= v %>
-<% end %>
-<% @php_admin_values.each do |k, v| %>
-	php_admin_value[<%= k %>] = <%= v %>
-<% end %>
-<% @misc_options.each do |k, v| %>
-	<%= k %> = <%= v %>
-<% end %>
+<% @misc_options.sort.each do |k, v| -%>
+    <%= k %> = <%= v %>
+<% end -%>
