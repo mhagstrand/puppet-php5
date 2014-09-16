@@ -4,19 +4,28 @@ class php5 {
   }
 
   package { [
-    'php5-suhosin',
-    'php5-pspell',
-    'php5-mysql',
-    'php5-memcache',
-    'php5-mcrypt',
-    'php5-gd',
     'php5-curl',
-    'php5-imap',
+    'php5-gd',
     'php5-imagick',
+    'php5-imap',
     'php5-intl',
+    'php5-mcrypt',
+    'php5-memcache',
+    'php5-mysql',
+    'php5-pspell',
   ]:
     ensure  => 'present',
     require => Package['php5-common'],
+  }
+
+  case $::lsbdistcodename {
+    'squeeze': {
+      package {'php5-suhosin':
+        ensure  => 'present',
+        require => Package['php5-common'],
+      }
+    }
+    default: {  }
   }
 
   file { '/etc/php5/conf.d/zzz_common.ini':
