@@ -1,6 +1,6 @@
 define php5::config(
   $value,
-  $target  = '/etc/php5/conf.d/zzz_common.ini',
+  $target,
   $section = '',
   $setting = '',
   $ensure  = 'present'

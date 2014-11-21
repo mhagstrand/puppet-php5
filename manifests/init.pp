@@ -28,16 +28,6 @@ class php5 {
     default: {  }
   }
 
-  file { '/etc/php5/conf.d/zzz_common.ini':
-    ensure  => present,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    content => "; managed by puppet\n",
-    replace => false,
-    require => Package['php5-common'],
-  }
-
   $config_changes = [
     'set register_globals Off', # Basic security
     'set expose_php Off', # Required for Nessus / Netsparker scans to succeed
