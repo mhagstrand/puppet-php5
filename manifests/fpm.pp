@@ -1,7 +1,8 @@
 class php5::fpm(
   $version = 'installed',
   $config_source = 'puppet:///modules/php5/php5-fpm.conf',
-  $install_default_pool = true
+  $install_default_pool = true,
+  $log_directory = '/var/log/php/'
 ) inherits php5 {
   $sapi = 'fpm'
 
@@ -39,6 +40,24 @@ class php5::fpm(
     mode    => '0755',
     require => Package['php5-fpm'],
   }
+
+  file { "$log_directory":
+    ensure  => directory,
+    recurse => true,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    require => Package['php5-fpm'],
+  }
+
+  file { '/etc/logrotate.d/php':
+    ensure  => 'present',
+    content => template('php5/fpm-logrotate.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+  }
+
 
   file{ '/var/run/php5-fpm':
     ensure => directory,
