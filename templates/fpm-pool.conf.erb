@@ -22,10 +22,10 @@ pm.max_requests = <% if @pm_max_requests %><%= @pm_max_requests %><% else %>0<% 
 <% if @status_path -%>
 pm.status_path = <%= @status_path %>
 <% end -%>
-<% if ! @access_log.empty? %>
-access.log = <%= @access_log %>
+<% if ! @access_log_file.empty? -%>
+access.log = <%= scope.lookupvar('php5::fpm::log_directory') + @access_log_file %>
 <% end -%>
-<% if ! @access_format.empty? %>
+<% if ! @access_format.empty? -%>
 access.format = "<%= @access_format %>"
 <% end -%>
 <% if @ping_path -%>
